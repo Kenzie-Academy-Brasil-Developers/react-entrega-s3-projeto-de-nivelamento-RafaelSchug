@@ -1,13 +1,16 @@
 import './style.css';
+import { toast } from 'react-toastify';
 
 const Cart = ({cartList, setCartList}) => {
     
     const handleRemoveItem = (id) => {
         setCartList(cartList.filter(item => item.code !== id))
+        toast.success("Produto removido", {autoClose: 2000})
     }
 
     const handleCheckout = () => {
         setCartList([])
+        toast.success("Compra finalizada!", {autoClose: 2000})
     }
 
     return (

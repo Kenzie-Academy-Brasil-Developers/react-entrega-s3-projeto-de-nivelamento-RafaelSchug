@@ -6,6 +6,18 @@
     gap: 1px;
 }
 
+.form__container form > div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.form__container form > div > span {
+    color: #ca2323;
+    font-size: 14px;
+    padding: 4px 0;
+}
+
 form input {
     height: 25px;
     border: 1px solid #b9b9b9;

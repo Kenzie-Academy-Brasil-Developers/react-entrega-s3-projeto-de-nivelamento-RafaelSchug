@@ -5,6 +5,8 @@ import products_list from './helper';
 import AddProduct from './components/AddProduct';
 import Cart from './components/Cart';
 import Header from './components/Header';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function App() {
@@ -14,6 +16,7 @@ function App() {
 
   return (
     <div className="App">
+       <ToastContainer />
       <Header cartList={cartList}></Header>
       <AddProduct products={products} setProducts={setProducts}></AddProduct>
       <Products products={products} cartList={cartList} setCartList={setCartList}></Products>

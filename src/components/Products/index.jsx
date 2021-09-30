@@ -1,4 +1,5 @@
 import './style.css'
+import { toast } from 'react-toastify';
 
 const Products = ({products, cartList, setCartList}) => {
 
@@ -18,6 +19,9 @@ const Products = ({products, cartList, setCartList}) => {
             })            
             setCartList(updateCart);
         }
+
+        toast.info("Produto adicionado ao carrinho", {autoClose: 2000})
+
     }
 
     return (
