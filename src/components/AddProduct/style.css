@@ -1,3 +1,8 @@
+.form__container {
+    max-width: 200px;
+    margin: 0 auto;
+}
+
 .form__container form {
     display: flex;
     flex-direction: column;
