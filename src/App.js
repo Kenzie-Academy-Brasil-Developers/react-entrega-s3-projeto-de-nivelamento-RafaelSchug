@@ -12,8 +12,6 @@ function App() {
   const [products, setProducts] = useState(products_list);
   const [cartList, setCartList] = useState([]);
 
-  console.log(cartList)
-
   return (
     <div className="App">
       <Header cartList={cartList}></Header>

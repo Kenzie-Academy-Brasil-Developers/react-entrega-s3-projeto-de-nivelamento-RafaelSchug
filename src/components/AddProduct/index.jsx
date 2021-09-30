@@ -1,18 +1,19 @@
 import { useState } from "react"
+import './style.css'
 
 const AddProduct = ({products, setProducts}) => {
 
-    const [inputInfo, setInputInfo] = useState({name:'', description:'', price: '', discount: ''})
+    const [inputInfo, setInputInfo] = useState({name:'', description:'', price:'' , discount:'' })
 
     const handleAddProduct = (event) => {
         event.preventDefault();
         const nextId = products.reduce((acc, item) => item.code > acc ? acc = item.code : acc, 0) + 1;
         const isProductIncluded = products.some(item => item.name === inputInfo.name);
-        const isFilled = Object.values(inputInfo).every(item => item.length > 0 || item >= 0); //check if every input field is filled
+        const isFilled = Object.values(inputInfo).every(item => item !== ''); //check if every input field is filled
 
         if(!isProductIncluded && isFilled){
             setProducts([...products, {...inputInfo, code: nextId}]);
-            setInputInfo({name:'', description:'', price: '', discount: ''});
+            setInputInfo({name:'', description:'', price:'' , discount:''});
         }
     }
 

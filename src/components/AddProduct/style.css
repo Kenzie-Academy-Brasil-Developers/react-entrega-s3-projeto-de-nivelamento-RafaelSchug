@@ -1,0 +1,31 @@
+.form__container form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1px;
+}
+
+form input {
+    height: 25px;
+    border: 1px solid #b9b9b9;
+    width: 200px;
+    box-sizing: border-box;
+}
+
+form button {
+    height: 25px;
+    width: 200px;
+    background: #059b05;
+    color: white;
+    font-weight: bold;
+    border: none;
+}
+
+form button:hover {
+    background: #048d04;
+}
+
+form button:active {
+    background: #037a03;
+}
