@@ -1,55 +1,52 @@
 import './style.css'
-import { useForm } from "react-hook-form"
-import {yupResolver} from '@hookform/resolvers/yup'
-import * as yup from 'yup';
 import { toast } from 'react-toastify';
+import { useState } from 'react';
 
 const AddProduct = ({products, setProducts}) => {
 
-    const schema = yup.object().shape({
-        name: yup.string().required("Campo obrigatório"),
-        description : yup.string().required("Campo obrigatório"),
-        price : yup.number().typeError("Valor obrigatório").required("Campo Obrigatório").test("Valor precisa ser positivo", "number", value => value > 0),
-        discount: yup.number().typeError("Valor obrigatório").required("Campo obrigatório").test("Valor precisa ser maior ou igual à 0", "number", value => value >= 0),
-    })
 
-    const {register, handleSubmit, formState:{errors}, reset} = useForm({resolver: yupResolver(schema)})
+    const [input, setInput] = useState({name:"", description:"", price:"", discount:""})
+    
 
+    const handleAddProduct = (event) => {
+        event.preventDefault();
 
-    const handleAddProduct = (data) => {
+        const checkInputFields = Object.values(input).every(item => item !== "");
 
-        const nextId = products.reduce((acc, item) => item.code > acc ? acc = item.code : acc, 0) + 1;
-        const isProductIncluded = products.some(item => item.name === data.name);
+        if(checkInputFields){
+            const nextId = products.reduce((acc, item) => item.code > acc ? acc = item.code : acc, 0) + 1;
+            const isProductIncluded = products.some(item => item.name === input.name);
 
-        if(!isProductIncluded){
-            setProducts([...products, {...data, code: nextId}]);
-            reset();
-            toast.success("Produto adicionado", {autoClose: 2000})
+            if(!isProductIncluded){
+                setProducts([...products, {...input, code: nextId}]);
+                toast.success("Produto adicionado", {autoClose: 2000})
+                setInput({name:"", description:"", price:"", discount:""})
+            } else {
+                toast.warn("Produto já incluso", {autoClose: 2000})
+            }
         } else {
-            toast.warn("Produto já incluso", {autoClose: 2000})
+            toast.warn("Preencha todos os campos")
         }
+        
     }
+
 
 
     return (
         <div className='form__container'>
             <h3>Adicionar produto</h3>
-            <form onSubmit={handleSubmit(handleAddProduct)}>
+            <form onSubmit={handleAddProduct}>
                 <div>
-                    <input type="text" placeholder="Nome do Produto"  {...register('name')}/>
-                    {!!errors.name && <span>{errors.name?.message}</span>}
+                    <input type="text" placeholder="Nome do Produto" onChange={e => setInput({...input, name:e.target.value})} value={input.name} />
                 </div>
                 <div>
-                    <input type="text" placeholder="Descrição do Produto" {...register('description')}/>
-                    {!!errors.description && <span>{errors.description?.message}</span>}
+                    <input type="text" placeholder="Descrição do Produto" onChange={e => setInput({...input, description:e.target.value})} value={input.description} />
                 </div>
                 <div>
-                    <input type="number" placeholder="Valor do Produto"  {...register('price')}/>
-                    {!!errors.price && <span>{errors.price?.message}</span>}
+                    <input type="number" placeholder="Valor do Produto" onChange={e => setInput({...input, price: Number(e.target.value)})} value={input.price} />
                 </div>
                 <div>
-                    <input type="number" placeholder="Valor de Desconto"  {...register('discount')}/>
-                    {!!errors.discount && <span>{errors.discount?.message}</span>}
+                    <input type="number" placeholder="Valor de Desconto" onChange={e => setInput({...input, discount: Number(e.target.value)})} value={input.discount} />
                 </div>
                 <button type='submit'>Adicionar</button>
             </form>
