@@ -1,12 +1,13 @@
 import './style.css'
 import { toast } from 'react-toastify';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const AddProduct = ({products, setProducts}) => {
 
 
     const [input, setInput] = useState({name:"", description:"", price:"", discount:""})
-    
+    const [error, setError] = useState(false);
+       
 
     const handleAddProduct = (event) => {
         event.preventDefault();
@@ -21,20 +22,29 @@ const AddProduct = ({products, setProducts}) => {
                 setProducts([...products, {...input, code: nextId}]);
                 toast.success("Produto adicionado", {autoClose: 2000})
                 setInput({name:"", description:"", price:"", discount:""})
+                setError(false);
             } else {
                 toast.warn("Produto já incluso", {autoClose: 2000})
             }
         } else {
-            toast.warn("Preencha todos os campos")
+            setError(true);
         }
         
     }
 
-
+    useEffect(()=> {
+        if(error){
+            const checkInputFields = Object.values(input).every(item => item !== "");
+            if(checkInputFields){
+                setError(false);
+            }
+        }
+    }, [input, error])
 
     return (
         <div className='form__container'>
             <h3>Adicionar produto</h3>
+            {error && <span className='error_msg'>Preencha todos os campos</span>}
             <form onSubmit={handleAddProduct}>
                 <div>
                     <input type="text" placeholder="Nome do Produto" onChange={e => setInput({...input, name:e.target.value})} value={input.name} />

@@ -46,3 +46,7 @@ form button:hover {
 form button:active {
     background: #037a03;
 }
+
+.error_msg {
+    color: red;
+}
